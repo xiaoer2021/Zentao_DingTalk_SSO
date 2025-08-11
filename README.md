@@ -14,10 +14,9 @@
 
 ![alt text](image.png)
 
-## 架构概览
+## 核心流程
 
 ```
-核心流程
 1. 用户访问 zentao.xxxx.cn
 2. 外层 Nginx(80)将请求转发到内层 Nginx (5000)
 3. 内层 Nginx 根据路径分发：
