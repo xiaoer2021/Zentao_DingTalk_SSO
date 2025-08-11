@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>登录失败</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --brand: #1677ff;
+    --text: #2b2f36;
+    --muted: #6b7280;
+    --card: #fff;
+    --bg: #f5f7fb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg);
+    font-family: "PingFang SC","Segoe UI",Arial,sans-serif;
+    color: var(--text); min-height: 100vh;
+    display: grid; place-items: center;
+  }
+  .card {
+    width: min(92vw, 480px);
+    background: var(--card);
+    border-radius: 16px;
+    padding: 28px 28px 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    text-align: center; animation: pop .25s ease-out;
+  }
+  .hero {
+    width: 140px; height: 140px; object-fit: contain; margin: 6px auto 10px;
+    user-select: none; -webkit-user-drag: none;
+  }
+  h1 { font-size: 20px; margin: 8px 0 6px; }
+  p.msg { color: var(--muted); font-size: 14px; line-height: 1.6; word-break: break-word; }
+  .actions { margin-top: 16px; display: flex; gap: 10px; justify-content: center; }
+  .btn {
+    padding: 10px 16px; border-radius: 10px; text-decoration: none; font-size: 14px;
+    background: var(--brand); color: #fff; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .ghost { background: #eef4ff; color: var(--brand); }
+  .tip { margin-top: 12px; font-size: 12px; color: var(--muted); }
+  @keyframes pop { from { transform: translateY(8px); opacity: 0; } to { transform:none; opacity:1; } }
+</style>
+</head>
+<body>
+  <div class="card" id="card"
+       data-target="{{ target_url or '/dingtalk/login' }}"
+       data-seconds="{{ seconds or 3 }}">
+    <img class="hero" src="{{ url_for('static', filename='img/error.gifs') }}" alt="错误" />
+    <h1>登录失败</h1>
+    <p class="msg">{{ message or '发生未知错误' }}</p>
+
+    <div class="actions">
+      <a class="btn" href="{{ target_url or '/dingtalk/login' }}">立即重试</a>
+      <a class="btn ghost" href="/">返回首页</a>
+    </div>
+    <div class="tip" id="tip">将在 <b id="count">{{ seconds or 3 }}</b> 秒后自动跳转…</div>
+  </div>
+
+<script>
+(function(){
+  const el = document.getElementById('card');
+  const target = el.dataset.target || '/dingtalk/login';
+  let left = parseInt(el.dataset.seconds || '3', 10);
+  const span = document.getElementById('count');
+  const tick = () => {
+    span.textContent = left;
+    if (left <= 0) { location.replace(target); return; }
+    left--; setTimeout(tick, 1000);
+  };
+  tick();
+})();
+</script>
+</body>
+</html>
