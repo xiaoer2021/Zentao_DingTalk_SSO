@@ -4,6 +4,7 @@
 禅道版本：21.7
 安装方式：Docker compose 安装
 开发类型：Python Flask + PHP ZIN “页脚注入”法
+钉钉开发者平台须创建H5微应用，然后配置回调地址和用户读取权限Contact.User.Read、qyapi_get_member、fieldMobile
 ```
 ## 项目简介
 本项目实现了钉钉扫码 / 一键登录与禅道系统的单点登录（SSO）集成。支持：
